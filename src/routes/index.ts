@@ -1,7 +1,7 @@
 import express from 'express';
-import { swaggerUi, specs } from '../modules/swagger.js';
-import boardRouter from './board.js';
-import commentRouter from './comment.js';
+import { swaggerUi, specs } from '../modules/swagger';
+import boardRouter from './board';
+import commentRouter from './comment';
 
 const router = express.Router();
 router.use(boardRouter);

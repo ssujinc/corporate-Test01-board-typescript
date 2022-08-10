@@ -1,4 +1,4 @@
-import { boardModels } from '../models/index.js';
+import { boardModels } from '../models';
 
 export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
   const existingBoard = await boardModels.getBoardByBoardId(boardId);

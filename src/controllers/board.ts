@@ -1,6 +1,6 @@
-import { boardService } from '../services/index.js';
+import { boardService } from '../services';
 
-export const getBoardWithComment = async (req, res) => {
+const getBoardWithComment = async (req, res) => {
   try {
     const boardId = req.params.id;
     const commentOffset = req.query.offset;
@@ -12,7 +12,7 @@ export const getBoardWithComment = async (req, res) => {
   }
 };
 
-export const getBoards = async (req, res) => {
+const getBoards = async (req, res) => {
   try {
     const { keyword } = req.query;
     const searchResult = await boardService.getBoards(keyword);
@@ -22,7 +22,7 @@ export const getBoards = async (req, res) => {
   }
 };
 
-export const increaseView = async (req, res) => {
+const increaseView = async (req, res) => {
   try {
     const boardId = req.params.id;
     const { userId } = req.body;
@@ -32,3 +32,5 @@ export const increaseView = async (req, res) => {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
+export default { getBoardWithComment, getBoards, increaseView };

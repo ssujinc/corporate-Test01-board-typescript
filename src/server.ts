@@ -4,7 +4,7 @@ import http from 'http';
 import express from 'express';
 dotenv.config();
 
-import routes from './routes/index.js';
+import routes from './routes';
 
 const app = express();
 const server = http.createServer(app);

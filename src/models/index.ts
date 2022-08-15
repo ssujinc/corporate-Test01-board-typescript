@@ -1,4 +1,4 @@
-import * as boardModels from './board.js';
-import * as commentModels from './comment.js';
+import boardModels from './board';
+import commentModels from './comment';
 
 export { boardModels, commentModels };

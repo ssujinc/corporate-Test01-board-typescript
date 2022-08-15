@@ -1,4 +1,4 @@
-import * as boardService from './board';
-import * as commentService from './comment';
+import boardService from './board';
+import commentService from './comment';
 
 export { boardService, commentService };

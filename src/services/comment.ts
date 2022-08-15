@@ -1,5 +1,7 @@
 import { commentModels } from '../models';
 
-export const createComment = async (createCommentDto) => {
+const createComment = async (createCommentDto) => {
   await commentModels.createComment(createCommentDto);
 };
+
+export default { createComment }

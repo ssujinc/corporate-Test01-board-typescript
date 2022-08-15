@@ -1,6 +1,6 @@
 import { commentService } from '../services';
 
-export const createComment = async (req, res) => {
+const createComment = async (req, res) => {
   try {
     const { boardId, userId, comment, parentId } = req.body;
     const createCommentDto = {
@@ -15,3 +15,5 @@ export const createComment = async (req, res) => {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
+export default { createComment };

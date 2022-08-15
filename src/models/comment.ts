@@ -1,6 +1,6 @@
-import prisma from '../prisma/index.js';
+import prisma from '../prisma';
 
-export const createComment = async (createCommentDto) => {
+const createComment = async (createCommentDto) => {
   const { userId, boardId, comment, parentId } = createCommentDto;
   let depth;
   if (parentId !== undefined) {
@@ -23,3 +23,5 @@ export const createComment = async (createCommentDto) => {
     `;
   await prisma.$queryRawUnsafe(query);
 };
+
+export default createComment;

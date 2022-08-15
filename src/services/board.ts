@@ -11,7 +11,7 @@ const getBoardWithComment = async (boardId: string, commentOffset: string, comme
 };
 
 const getBoards = async (keyword: string) => {
-  const searchResult = await boardModels.getBoards(keyword);
+  const searchResult: any = await boardModels.getBoards(keyword);
   if (keyword.length === 0) {
     const error = new Error('검색어가 없습니다.');
     // error.statusCode = 402;
@@ -28,11 +28,13 @@ const getBoards = async (keyword: string) => {
 const increaseView = async (boardId: string, userId: string) => {
   const existingUser = await boardModels.getUserById(boardId, userId);
   if (existingUser) {
-    const view = Number((await boardModels.readView(boardId))[0].cnt);
+    const boardIdId: any = await boardModels.readView(boardId);
+    const view = Number(boardIdId[0].cnt);
     return view;
   }
   await boardModels.createView(boardId, userId);
-  const view = Number((await boardModels.readView(boardId))[0].cnt);
+  const boardIdId: any = await boardModels.readView(boardId);
+  const view = Number(boardIdId[0].cnt);
   return view;
 };
 

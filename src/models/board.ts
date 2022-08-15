@@ -2,7 +2,8 @@ import prisma from '../prisma';
 import { searchFilter } from './util';
 
 const getBoardByBoardId = async (boardId: string) => {
-  const [existingBoard] = await prisma.$queryRaw`
+  let existingBoard: [] = [];
+  existingBoard = await prisma.$queryRaw`
     SELECT * FROM board
     WHERE id=${boardId}
   `;
@@ -72,23 +73,24 @@ const getBoards = async (keyword: string) => {
 };
 
 const getUserById = async (boardId: string, userId: string) => {
-  const [existingUser] = await prisma.$queryRaw`
-    SELECT * FROM view
-    WHERE board_id=${boardId} AND user_id=${userId}
+  let existingUser: [] = [];
+  existingUser = await prisma.$queryRaw`
+  SELECT * FROM view
+    WHERE board_id = ${boardId} AND user_id = ${userId}
   `;
   return existingUser;
 };
 
 const createView = async (boardId: string, userId: string) => {
   return await prisma.$queryRaw`
-  INSERT INTO view (board_id, user_id)
+  INSERT INTO view(board_id, user_id)
   VALUES(${boardId}, ${userId})
-  `;
+    `;
 };
 
 const readView = async (boardId: string) => {
   return await prisma.$queryRaw`
-    SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
+    SELECT COUNT(*) AS cnt FROM view WHERE board_id = ${boardId}
   `;
 };
 

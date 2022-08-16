@@ -4,7 +4,7 @@ import { commentService } from '../services';
 const createComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { boardId, userId, comment, parentId } = req.body;
-    const createCommentDto = {
+    const createCommentDto: any = {
       userId,
       boardId,
       comment,

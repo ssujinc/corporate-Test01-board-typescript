@@ -48,7 +48,7 @@ const getBoardWithComment = async (boardId: string, commentOffset: string, comme
 };
 
 const getBoards = async (keyword: string) => {
-  return await prisma.$queryRawUnsafe(`
+  return await prisma.$queryRawUnsafe<{ searchResult: string }[]>(`
     SELECT
       board.id,
       board.title AS boardTitle,
@@ -89,7 +89,7 @@ const createView = async (boardId: string, userId: string) => {
 };
 
 const readView = async (boardId: string) => {
-  return await prisma.$queryRaw`
+  return await prisma.$queryRaw<{ cnt: number }[]>`
     SELECT COUNT(*) AS cnt FROM view WHERE board_id = ${boardId}
   `;
 };

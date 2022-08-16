@@ -16,21 +16,20 @@ const getBoardWithComment = async (req: Request<{ id: string }, {}, {}, { offset
   }
 };
 
-const getBoards = async (req: Request, res: Response) => {
+const getBoards = async (req: Request<{}, {}, {}, { keyword: string }>, res: Response) => {
   try {
     const { keyword } = req.query;
-    if (typeof keyword === "string") {
-      const searchResult = await boardService.getBoards(keyword);
-      return res.status(200).json(searchResult);
-    }
+    const searchResult = await boardService.getBoards(keyword);
+    return res.status(200).json(searchResult);
   } catch (error) {
     if (error instanceof HttpError) {
+      console.log(error)
       return res.status(error.statusCode || 500).json({ message: error.message });
     }
   }
 };
 
-const increaseView = async (req: Request, res: Response) => {
+const increaseView = async (req: Request<{ id: string }, {}, { userId: string }, {}>, res: Response) => {
   try {
     const boardId = req.params.id;
     const { userId } = req.body;

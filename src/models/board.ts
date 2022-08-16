@@ -1,16 +1,17 @@
-import prisma from '../prisma/index.js';
-import { searchFilter } from './util.js';
+import prisma from '../prisma';
+import { searchFilter } from './util';
 
-export const getBoardByBoardId = async (boardId) => {
-  const [existingBoard] = await prisma.$queryRaw`
+const getBoardByBoardId = async (boardId: string) => {
+  let existingBoard: [] = [];
+  existingBoard = await prisma.$queryRaw`
     SELECT * FROM board
     WHERE id=${boardId}
   `;
   return existingBoard;
 };
 
-export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
-  const start = (commentOffset - 1) * commentLimit;
+const getBoardWithComment = async (boardId: string, commentOffset: string, commentLimit: string) => {
+  const start = (Number(commentOffset) - 1) * Number(commentLimit);
 
   return await prisma.$queryRawUnsafe(`
   SELECT
@@ -46,7 +47,7 @@ export const getBoardWithComment = async (boardId, commentOffset, commentLimit) 
   `);
 };
 
-export const getBoards = async (keyword) => {
+const getBoards = async (keyword: string) => {
   return await prisma.$queryRawUnsafe(`
     SELECT
       board.id,
@@ -71,23 +72,26 @@ export const getBoards = async (keyword) => {
   `);
 };
 
-export const getUserById = async (boardId, userId) => {
-  const [existingUser] = await prisma.$queryRaw`
-    SELECT * FROM view
-    WHERE board_id=${boardId} AND user_id=${userId}
+const getUserById = async (boardId: string, userId: string) => {
+  let existingUser: [] = [];
+  existingUser = await prisma.$queryRaw`
+  SELECT * FROM view
+    WHERE board_id = ${boardId} AND user_id = ${userId}
   `;
   return existingUser;
 };
 
-export const createView = async (boardId, userId) => {
+const createView = async (boardId: string, userId: string) => {
   return await prisma.$queryRaw`
-  INSERT INTO view (board_id, user_id)
+  INSERT INTO view(board_id, user_id)
   VALUES(${boardId}, ${userId})
+    `;
+};
+
+const readView = async (boardId: string) => {
+  return await prisma.$queryRaw`
+    SELECT COUNT(*) AS cnt FROM view WHERE board_id = ${boardId}
   `;
 };
 
-export const readView = async (boardId) => {
-  return await prisma.$queryRaw`
-    SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
-  `;
-};
+export default { getBoardByBoardId, getBoardWithComment, getBoards, getUserById, createView, readView }

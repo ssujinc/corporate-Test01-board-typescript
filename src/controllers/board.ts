@@ -1,6 +1,3 @@
-// validation
-// 값 타입 변환 (ex. string -> number)
-
 import { Request, Response, NextFunction } from 'express';
 import { boardService } from '../services';
 

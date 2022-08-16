@@ -48,7 +48,7 @@ const getBoardWithComment = async (boardId: string, commentOffset: string, comme
 };
 
 const getBoards = async (keyword: string) => {
-  return await prisma.$queryRawUnsafe<{ searchResult: string }[]>(`
+  return await prisma.$queryRawUnsafe<{ id: string, boardTitle: string, boardContent: string, username: string, commentContent: string, category: string }[]>(`
     SELECT
       board.id,
       board.title AS boardTitle,

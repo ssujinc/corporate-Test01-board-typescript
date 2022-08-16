@@ -1,10 +1,10 @@
 import prisma from '../prisma';
 
-const createComment = async (createCommentDto) => {
+const createComment = async (createCommentDto: any) => {
   const { userId, boardId, comment, parentId } = createCommentDto;
   let depth;
   if (parentId !== undefined) {
-    let pdepth = await prisma.$queryRaw`SELECT depth FROM comment WHERE id=${parentId}`;
+    let pdepth: object[] = await prisma.$queryRaw`SELECT depth FROM comment WHERE id=${parentId}`;
     depth = Number(pdepth[0].depth) + 1;
   } else {
     depth = 0;
@@ -24,4 +24,4 @@ const createComment = async (createCommentDto) => {
   await prisma.$queryRawUnsafe(query);
 };
 
-export default createComment;
+export default { createComment };

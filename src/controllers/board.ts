@@ -4,24 +4,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { boardService } from '../services';
 
-/* class BaseError extends Error {
-  statusCode: number;
-  constructor(statusCode: number, message: string) {
-    super(message);
-
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = Error.name;
-    this.statusCode = statusCode;
-    Error.captureStackTrace(this);
-  }
-}
-interface Error {
-  name: string;
-  message: string;
-  stack?: string;
-}
-const extendedError = new BaseError(400, 'message'); */
-
 const getBoardWithComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const boardId = req.params.id;

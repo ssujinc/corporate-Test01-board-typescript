@@ -5,7 +5,7 @@ const getBoardWithComment = async (boardId: string, commentOffset: string, comme
   if (!existingBoard) {
     const error = new Error('게시판이 존재하지 않습니다.');
     // error.statusCode = 402;
-    throw error;
+    return error;
   }
   return await boardModels.getBoardWithComment(boardId, commentOffset, commentLimit);
 };
@@ -15,7 +15,7 @@ const getBoards = async (keyword: string) => {
   if (keyword.length === 0) {
     const error = new Error('검색어가 없습니다.');
     // error.statusCode = 402;
-    throw error;
+    return error;
   }
   if (searchResult.length === 0) {
     const error = new Error('검색 결과가 없습니다.');
@@ -27,7 +27,7 @@ const getBoards = async (keyword: string) => {
 
 const increaseView = async (boardId: string, userId: string) => {
   const existingUser = await boardModels.getUserById(boardId, userId);
-  if (existingUser) {
+  if (existingUser.length > 0) {
     const boardIdId: any = await boardModels.readView(boardId);
     const view = Number(boardIdId[0].cnt);
     return view;

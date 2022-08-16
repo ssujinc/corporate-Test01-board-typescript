@@ -1,22 +1,22 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { boardService } from '../services';
+import HttpError from '../common/httpError';
 
-const getBoardWithComment = async (req: Request, res: Response, next: NextFunction) => {
+const getBoardWithComment = async (req: Request<{ id: string }, {}, {}, { offset: string, limit: string }>, res: Response) => {
   try {
     const boardId = req.params.id;
     const commentOffset = req.query.offset;
     const commentLimit = req.query.limit;
-    if (typeof commentOffset === "string" && typeof commentLimit === "string") {
-      const readBoard = await boardService.getBoardWithComment(boardId, commentOffset, commentLimit);
-      return res.status(200).json(readBoard);
-    }
+    const readBoard = await boardService.getBoardWithComment(boardId, commentOffset, commentLimit);
+    return res.status(200).json(readBoard);
   } catch (error) {
-    next(error);
-    // return res.status(error.statusCode || 500).json({ message: error.message });
+    if (error instanceof HttpError) {
+      return res.status(error.statusCode || 500).json({ message: error.message });
+    }
   }
 };
 
-const getBoards = async (req: Request, res: Response, next: NextFunction) => {
+const getBoards = async (req: Request, res: Response) => {
   try {
     const { keyword } = req.query;
     if (typeof keyword === "string") {
@@ -24,20 +24,22 @@ const getBoards = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(200).json(searchResult);
     }
   } catch (error) {
-    next(error);
-    // return res.status(error.statusCode || 500).json({ message: error.message });
+    if (error instanceof HttpError) {
+      return res.status(error.statusCode || 500).json({ message: error.message });
+    }
   }
 };
 
-const increaseView = async (req: Request, res: Response, next: NextFunction) => {
+const increaseView = async (req: Request, res: Response) => {
   try {
     const boardId = req.params.id;
     const { userId } = req.body;
     const view = await boardService.increaseView(boardId, userId);
     return res.status(200).json(view);
   } catch (error) {
-    next(error);
-    // return res.status(error.statusCode || 500).json({ message: error.message });
+    if (error instanceof HttpError) {
+      return res.status(error.statusCode || 500).json({ message: error.message });
+    }
   }
 };
 

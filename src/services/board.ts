@@ -10,8 +10,20 @@ const getBoardWithComment = async (boardId: string, commentOffset: string, comme
   return await boardModels.getBoardWithComment(boardId, commentOffset, commentLimit);
 };
 
+interface SearchResult {
+  id: number;
+  boardTitle: string;
+  boardContent: string;
+  userName: string;
+  commentContent: string;
+  category: string;
+};
+
+
 const getBoards = async (keyword: string) => {
-  const searchResult: any = await boardModels.getBoards(keyword);
+  let searchResult: SearchResult[] = [];
+  searchResult = await boardModels.getBoards(keyword);
+  console.log(searchResult)
   if (keyword.length === 0) {
     const error = new Error('검색어가 없습니다.');
     // error.statusCode = 402;
@@ -20,7 +32,7 @@ const getBoards = async (keyword: string) => {
   if (searchResult.length === 0) {
     const error = new Error('검색 결과가 없습니다.');
     // error.statusCode = 403;
-    throw error;
+    return error;
   }
   return searchResult;
 };
